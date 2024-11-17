@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Images, Color, Size
+from .models import Product, Images
 
 
 class ImagesSerializer(serializers.ModelSerializer):
@@ -8,22 +8,8 @@ class ImagesSerializer(serializers.ModelSerializer):
         fields = ("id", "image")
 
 
-class ColorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Color
-        fields = ("id", "color", "color_code")
-
-
-class SizeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Size
-        fields = ("id", "size")
-
-
 class ProductSerializer(serializers.ModelSerializer):
     images = ImagesSerializer(many=True, read_only=True, source="images_set")
-    colors = ColorSerializer(many=True, read_only=True, source="colors_set")
-    size = serializers.SerializerMethodField()
     category = serializers.SerializerMethodField()
     relative_url = serializers.URLField(
         source="get_absolute_api_url", read_only=True
