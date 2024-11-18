@@ -24,18 +24,11 @@ class ProductSerializer(serializers.ModelSerializer):
             "discount",
             "pic",
             "quantity",
-            "material",
-            "brand",
             "description",
             "images",
-            "colors",
-            "size",
             "category",
             "relative_url",
         )
-
-    def get_size(self, instance):
-        return instance.size.values_list("size", flat=True)
 
     def get_category(self, instance):
         return instance.category.values_list("category", flat=True)

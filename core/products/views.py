@@ -11,7 +11,7 @@ class ProductList(ListCreateAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ["category", "size", "price"]
+    filterset_fields = ["category", "price"]
     search_fields = ["name", "description"]
     ordering_fields = ["created_at"]
 
