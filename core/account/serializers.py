@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ...models import Profile, User, Address
+from .models import Profile, User, Address
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
@@ -115,7 +115,7 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ('id', 'profile', 'name', 'address', 'ostan',
-                  'shahr', 'postcode', 'phone_number', 'created_date')
+                  'shahr', 'postcode', 'created_date')
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
