@@ -100,7 +100,7 @@ class AddressApiView(generics.ListCreateAPIView):
     def delete(self, request, *args, **kwargs):
         profile = Profile.objects.get(user=request.user)
         try:
-            address = Address.objects.get(profile=profile)
+            address = Address.objects.get(profile=profile, id=kwargs.get("pk"))
             address.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Address.DoesNotExist:

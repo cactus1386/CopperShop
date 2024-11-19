@@ -104,9 +104,9 @@ class ProfileSerializer(serializers.ModelSerializer):
             "id",
             "phone",
             'name',
+            'family',
             "image",
             "description",
-            'family'
         )
 
 
