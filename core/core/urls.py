@@ -33,5 +33,6 @@ urlpatterns = [
         "slider/", include("slider.urls")
     ),
     path('auth/', include('account.urls')),
+    path('comments/', include('comment.urls')),
 
 ]

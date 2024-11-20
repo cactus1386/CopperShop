@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'djoser',
     'account',
     'slider',
-    'comment'
+    'comment',
 ]
 
 MIDDLEWARE = [
