@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -17,6 +19,8 @@ class Product(models.Model):
     pic = models.ImageField(upload_to='uploads/')
     quantity = models.PositiveIntegerField()
     description = models.TextField()
+    brand = models.CharField(max_length=255, blank=True,
+                             null=True, default="mes")
     category = models.ManyToManyField(Category)
     created_at = models.DateTimeField(auto_now_add=True)
 
