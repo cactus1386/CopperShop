@@ -11,8 +11,15 @@ app_name = "api-v1"
 
 
 urlpatterns = [
-    path('login/', ObtainAuthTokenView.as_view(), name='login'),
-    path('logout/', CustomDiscardAuthToken.as_view(), name='logout'),
+    path(
+        "jwt/create/",
+        CustomTokenObtainPairView.as_view(),
+        name="JWT-token-create",
+    ),
+    path(
+        "jwt/refresh/", TokenRefreshView.as_view(), name="JWT-token-refresh"
+    ),
+    path("jwt/verify/", TokenVerifyView.as_view(), name="JWT-token-verify"),
     path('change-password/', ChangePasswordApiView.as_view(), name='change_password'),
     path('profile/', ProfileApiView.as_view(), name='profile'),
     path('profile/list/', GetProfileApiView.as_view(), name='get_profile'),
