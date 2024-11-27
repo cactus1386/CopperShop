@@ -36,7 +36,7 @@ urlpatterns = [
     ),
     path('auth/', include('account.urls')),
     path('comments/', include('comment.urls')),
-
+    path('cart/', include('cart.urls')),
 ]
 
 if settings.DEBUG:
