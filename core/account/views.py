@@ -69,15 +69,7 @@ class ChangePasswordApiView(generics.GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProfileApiView(generics.CreateAPIView):
-    serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return Profile.objects.filter(user=self.request.user)
-
-
-class GetProfileApiView(generics.ListAPIView):
+class ProfileApiView(generics.ListCreateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 

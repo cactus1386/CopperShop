@@ -22,7 +22,6 @@ urlpatterns = [
     path("jwt/verify/", TokenVerifyView.as_view(), name="JWT-token-verify"),
     path('change-password/', ChangePasswordApiView.as_view(), name='change_password'),
     path('profile/', ProfileApiView.as_view(), name='profile'),
-    path('profile/list/', GetProfileApiView.as_view(), name='get_profile'),
     path('address/', AddressApiView.as_view(), name='address'),
     path('address/<int:pk>/', AddressApiView.as_view(), name='delete_address'),
 ]
