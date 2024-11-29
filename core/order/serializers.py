@@ -19,5 +19,5 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ('id', 'user', 'created_at', 'updated_at', 'items', 'total')
 
-    def get_total(self, obj):
-        return obj.total
+    # def get_total(self, obj):
+    #     return obj.total

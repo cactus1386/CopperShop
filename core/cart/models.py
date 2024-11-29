@@ -21,6 +21,9 @@ class Cart(models.Model):
         if created:
             Cart.objects.create(user=instance)
 
+    def get_total_price(self):
+        return sum(item.product.price * item.quantity for item in self.cart_item.all())
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(
