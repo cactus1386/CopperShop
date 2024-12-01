@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Images
+from .models import Product, Images, Category
 
 
 class ImagesSerializer(serializers.ModelSerializer):
@@ -32,3 +32,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_category(self, instance):
         return instance.category.values_list("category", flat=True)
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
