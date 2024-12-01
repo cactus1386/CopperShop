@@ -18,11 +18,15 @@ class OrderViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def create_order(self, request):
         cart = Cart.objects.get(user=request.user)
-        if not cart.cart_item.exists():
+        if not cart.cart_items.exists():
             return Response({'error': 'Cart is empty'}, status=status.HTTP_400_BAD_REQUEST)
 
+        # Create and save the Order instance first
         order = Order.objects.create(user=request.user)
-        for item in cart.cart_item.all():
+        order.save()
+
+        # Create OrderItem instances
+        for item in cart.cart_items.all():
             OrderItem.objects.create(
                 order=order,
                 product=item.product,
@@ -31,7 +35,8 @@ class OrderViewSet(viewsets.ViewSet):
             )
             item.delete()  # Clear the cart item
 
-        cart.total = 0  # Reset the cart total
+        # Reset the cart total
+        cart.total = 0
         cart.save()
 
         serializer = OrderSerializer(order)
