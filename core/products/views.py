@@ -27,3 +27,11 @@ class CategoryList(ListAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+
+class TopDiscountsList(ListAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return Product.objects.filter(discount__gt=0).order_by('-discount')[:10]

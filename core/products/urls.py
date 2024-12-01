@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import ProductList, ProductDetail, CategoryList
+from .views import ProductList, ProductDetail, CategoryList, TopDiscountsList
 
 app_name = "shop"
 
@@ -12,4 +12,5 @@ urlpatterns = [
         name="product-detail",
     ),
     path('category/', CategoryList.as_view(), name="category"),
+    path('top-discounts/', TopDiscountsList.as_view(), name='top-discounts'),
 ]
