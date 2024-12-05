@@ -22,18 +22,25 @@ class OrderViewSet(viewsets.ViewSet):
             return Response({'error': 'Cart is empty'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Create and save the Order instance first
-        order = Order.objects.create(user=request.user)
-        order.save()
+        order = Order(user=request.user)
+        order.save()  # Save the Order instance to get a primary key
 
         # Create OrderItem instances
+        order_items = []
         for item in cart.cart_items.all():
-            OrderItem.objects.create(
+            order_item = OrderItem(
                 order=order,
                 product=item.product,
                 quantity=item.quantity,
-                price=item.product.price
+                price=item.product.price  # Fetch price from Product model
             )
-            item.delete()  # Clear the cart item
+            order_items.append(order_item)
+
+        # Save all OrderItems at once
+        OrderItem.objects.bulk_create(order_items)
+
+        # Clear the cart items
+        cart.cart_items.all().delete()
 
         # Reset the cart total
         cart.total = 0

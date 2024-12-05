@@ -23,5 +23,6 @@ urlpatterns = [
     path('change-password/', ChangePasswordApiView.as_view(), name='change_password'),
     path('profile/', ProfileGetApiView.as_view(), name='profile-get'),
     path('profile/<int:pk>/', ProfileApiView.as_view(), name='profile-list'),
-    path('address/<int:pk>/', AddressApiView.as_view(), name='delete_address'),
+    path('address/', AddressApiView.as_view(), name='address'),
+    path('address/<int:pk>/', AddressDetailApiView.as_view(), name='address-detail'),
 ]
