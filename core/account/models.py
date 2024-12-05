@@ -50,7 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
     family = models.CharField(
         max_length=255, null=True, blank=True, default='')
