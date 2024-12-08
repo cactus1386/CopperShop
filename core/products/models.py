@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class Category(models.Model):
-    category = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     image = models.ImageField(upload_to='uploads/', null=True, blank=True)
 
     def __str__(self):
@@ -22,7 +22,8 @@ class Product(models.Model):
     description = models.TextField()
     brand = models.CharField(max_length=255, blank=True,
                              null=True, default="mes")
-    category = models.ManyToManyField(Category)
+    category = models.ForeignKey(
+        Category, related_name='product', on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
