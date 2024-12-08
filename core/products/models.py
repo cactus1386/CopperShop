@@ -11,7 +11,7 @@ class Category(models.Model):
         upload_to='uploads/category/', null=True, blank=True)
 
     def __str__(self):
-        return self.category
+        return self.name
 
 
 class Product(models.Model):
