@@ -78,8 +78,9 @@ class ProfileApiView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         if Profile.objects.filter(user=self.request.user).exists():
-            return Response({'error': 'Profile already exists'}, status=status.HTTP_400_BAD_REQUEST)
-            serializer.save(user=self.request.user)
+            raise serializers.ValidationError(
+                {'error': 'Profile already exists'})
+        serializer.save(user=self.request.user)
 
 
 class ProfileGetApiView(generics.ListAPIView):
