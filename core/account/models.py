@@ -54,7 +54,8 @@ class Profile(models.Model):
     name = models.CharField(max_length=255, null=True, blank=True)
     family = models.CharField(
         max_length=255, null=True, blank=True, default='')
-    image = models.ImageField(upload_to='uploads/', blank=True, null=True)
+    image = models.ImageField(
+        upload_to='uploads/profile/', blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
     created_date = models.DateTimeField(auto_now_add=True)

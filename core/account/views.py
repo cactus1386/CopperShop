@@ -1,3 +1,6 @@
+from .serializers import ProfileSerializer
+from .models import Profile
+from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from .serializers import *
@@ -69,26 +72,27 @@ class ChangePasswordApiView(generics.GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProfileApiView(generics.CreateAPIView):
+class ProfileApiView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return Profile.objects.filter(user=self.request.user)
+    def get_object(self):
+        # Get or create the profile for the authenticated user
+        profile, created = Profile.objects.get_or_create(
+            user=self.request.user)
+        return profile
+
+    def create(self, request, *args, **kwargs):
+        if Profile.objects.filter(user=self.request.user).exists():
+            return Response({'error': 'Profile already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer):
-        if Profile.objects.filter(user=self.request.user).exists():
-            raise serializers.ValidationError(
-                {'error': 'Profile already exists'})
         serializer.save(user=self.request.user)
-
-
-class ProfileGetApiView(generics.ListAPIView):
-    serializer_class = ProfileSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return Profile.objects.filter(user=self.request.user)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
