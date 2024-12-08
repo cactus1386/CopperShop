@@ -110,3 +110,18 @@ class AddressDetailApiView(generics.RetrieveDestroyAPIView):
     def get_queryset(self):
         profile = Profile.objects.get(user=self.request.user)
         return Address.objects.filter(profile=profile)
+
+
+class RegistrationApiView(generics.GenericAPIView):
+    serializer_class = RegistrationSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = RegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            data = {
+                "phone": serializer.validated_data["phone"],
+                "message": "Registration successful"
+            }
+            return Response(data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

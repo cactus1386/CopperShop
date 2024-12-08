@@ -20,6 +20,7 @@ urlpatterns = [
         "jwt/refresh/", TokenRefreshView.as_view(), name="JWT-token-refresh"
     ),
     path("jwt/verify/", TokenVerifyView.as_view(), name="JWT-token-verify"),
+    path('register/', RegistrationApiView.as_view(), name="register"),
     path('change-password/', ChangePasswordApiView.as_view(), name='change_password'),
     path('profile/', ProfileGetApiView.as_view(), name='profile-get'),
     path('profile/<int:pk>/', ProfileApiView.as_view(), name='profile-list'),
