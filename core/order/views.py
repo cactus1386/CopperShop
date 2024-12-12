@@ -18,29 +18,38 @@ class OrderViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def create_order(self, request):
         cart = Cart.objects.get(user=request.user)
-        if not cart.cart_items.exists():
+        if not cart.cart_item.exists():
             return Response({'error': 'Cart is empty'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Create and save the Order instance first
+        # Create and save the Order instance
         order = Order(user=request.user)
-        order.save()  # Save the Order instance to get a primary key
+        order.save()
+
+        # Ensure the order instance has a primary key
+        if not order.pk:
+            return Response({'error': 'Order instance did not get a primary key'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # Create OrderItem instances
         order_items = []
-        for item in cart.cart_items.all():
+        for item in cart.cart_item.all():
             order_item = OrderItem(
                 order=order,
                 product=item.product,
                 quantity=item.quantity,
-                price=item.product.price  # Fetch price from Product model
+                price=item.product.price
             )
             order_items.append(order_item)
 
         # Save all OrderItems at once
-        OrderItem.objects.bulk_create(order_items)
+        try:
+            OrderItem.objects.bulk_create(order_items)
+        except Exception as e:
+            # Clean up the order if creating order items failed
+            order.delete()
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # Clear the cart items
-        cart.cart_items.all().delete()
+        cart.cart_item.all().delete()
 
         # Reset the cart total
         cart.total = 0

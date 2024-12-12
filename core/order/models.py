@@ -1,8 +1,6 @@
 from django.db import models
 from django.conf import settings
 from products.models import Product
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 
 
 class Order(models.Model):
@@ -21,9 +19,3 @@ class OrderItem(models.Model):
         Product, related_name="order_product", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-
-
-@receiver(pre_save, sender=Order)
-def update_total(sender, instance, **kwargs):
-    instance.total = sum(
-        item.price * item.quantity for item in instance.order_items.all())

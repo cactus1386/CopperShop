@@ -76,6 +76,9 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        return Profile.objects.filter(user=self.request.user)
+
     def get_object(self):
         # Get or create the profile for the authenticated user
         profile, created = Profile.objects.get_or_create(
