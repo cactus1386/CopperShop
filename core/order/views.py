@@ -21,15 +21,12 @@ class OrderViewSet(viewsets.ViewSet):
         if not cart.cart_item.exists():
             return Response({'error': 'Cart is empty'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Create and save the Order instance
         order = Order(user=request.user)
         order.save()
 
-        # Ensure the order instance has a primary key
         if not order.pk:
             return Response({'error': 'Order instance did not get a primary key'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        # Create OrderItem instances
         order_items = []
         for item in cart.cart_item.all():
             order_item = OrderItem(
@@ -40,18 +37,14 @@ class OrderViewSet(viewsets.ViewSet):
             )
             order_items.append(order_item)
 
-        # Save all OrderItems at once
         try:
             OrderItem.objects.bulk_create(order_items)
         except Exception as e:
-            # Clean up the order if creating order items failed
             order.delete()
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        # Clear the cart items
         cart.cart_item.all().delete()
 
-        # Reset the cart total
         cart.total = 0
         cart.save()
 
