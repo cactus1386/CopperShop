@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_simplejwt",
+    'django_summernote',
     "drf_yasg",
     "corsheaders",
     "django_filters",
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'comment',
     'cart',
     'order',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -163,3 +165,18 @@ REST_FRAMEWORK = {
 
 
 AUTH_USER_MODEL = "account.User"
+
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+SUMMERNOTE_CONFIG = {
+    'iframe': True,
+    "jquery": "summernoteJQuery",
+
+    'summernote': {
+
+        'width': '100%'
+    }
+}
+
+SUMMERNOTE_THEME = 'bs3'

@@ -38,6 +38,8 @@ urlpatterns = [
     path('comments/', include('comment.urls')),
     path('cart/', include('cart.urls')),
     path('order/', include('order.urls')),
+    path('summernote/', include('django_summernote.urls')),
+    path('blog/', include('blog.urls')),
 ]
 
 if settings.DEBUG:
