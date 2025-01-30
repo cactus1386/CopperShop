@@ -40,6 +40,7 @@ urlpatterns = [
     path('order/', include('order.urls')),
     path('summernote/', include('django_summernote.urls')),
     path('blog/', include('blog.urls')),
+    path('contact-us/', include('contact.urls')),
 ]
 
 if settings.DEBUG:
